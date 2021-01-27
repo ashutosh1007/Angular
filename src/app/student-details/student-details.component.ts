@@ -42,17 +42,18 @@ export class StudentDetailsComponent implements OnInit {
       _id: "",
       first_name: "",
       last_name: "",
-      roll_number: null, 
+      roll_number: null,
       email: "",
       subjectDetails: null
     }
   }
 
-  onSubmit(form: NgForm){
-    if(form.value._id == ""){    
+  onSubmit(){
+    console.log(this.students)
+    /*if(form.value._id == ""){
       this.studentService.postStudent(form.value).subscribe((res) => {
         this.resetForm(form);
-      }); 
-    } 
-  } 
+      });
+    }*/
+  }
 }
