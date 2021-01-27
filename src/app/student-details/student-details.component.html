@@ -1,0 +1,68 @@
+<h1 class="text-center">Student Form</h1>
+<form  #studentForm="ngForm" (ngSubmit)="onSubmit(studentForm)" class="container mt-3">
+    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="studentService.selectedStudent._id">
+                           
+    <label>First Name</label>
+    <input type="text" id="first_name" name="first_name" class="form-control" pattern="[a-zA-Z][a-zA-Z ]+" required minlength="4" maxlength="20"  #first_name="ngModel" [(ngModel)]="studentService.selectedStudent.first_name"/>
+    <div *ngIf="first_name.invalid && (first_name.dirty || first_name.touched)"
+    class="alert alert-danger">
+      <div *ngIf="first_name.errors.required">Name is required.</div>
+      <div *ngIf="first_name.errors.minlength">Name must be at least 4 characters long.</div>
+      <div *ngIf="first_name.errors.maxlength">Name not more than 20 characters long.</div>   
+      <div [hidden]="!first_name.hasError('pattern')">Only alphabets allowed</div>  
+    </div>
+
+    <label>Last Name</label>
+    <input type="text" name="last_name" name="last_name"  class="form-control" pattern="[a-zA-Z][a-zA-Z ]+" required minlength="4" maxlength="20"  #last_name="ngModel" [(ngModel)]="studentService.selectedStudent.last_name"/>
+    <div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)"
+    class="alert alert-danger">
+      <div *ngIf="last_name.errors.required">Name is required.</div>
+      <div *ngIf="last_name.errors.minlength">Name must be at least 4 characters long.</div>
+      <div *ngIf="last_name.errors.maxlength">Name not more than 20 characters long.</div>  
+      <div [hidden]="!last_name.hasError('pattern')">Only alphabets allowed</div> 
+    </div>
+
+    <label>Email</label>
+    <input type="email" id="email" name="email" class="form-control" #email="ngModel" [(ngModel)]="studentService.selectedStudent.email"
+    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"/>
+    <div [hidden]="email.valid || email.pristine"
+    class="alert alert-danger">
+      <div [hidden]="!email.hasError('required')">Email is required</div>
+      <div [hidden]="!email.hasError('pattern')">Email format should be <b>joe@abc.com</b></div>
+    </div>
+    
+    <label>Roll Number</label>
+    <input type="text" id="roll_number" name="roll_number" class="form-control" pattern="[0-9]*" required minlength="1" maxlength="5" #roll_number="ngModel" [(ngModel)]="studentService.selectedStudent.roll_number"/>
+    <div *ngIf="roll_number.invalid && (roll_number.dirty || roll_number.touched)"
+    class="alert alert-danger">  
+      <div *ngIf="roll_number.errors.required">Roll number is required.</div>
+      <div *ngIf="roll_number.errors.minlength">Roll number must be at least 1 digit long.</div>
+      <div *ngIf="roll_number.errors.maxlength">Roll number not more than 5 digit long.</div>  
+      <div [hidden]="!roll_number.hasError('pattern')">Only number allowed</div>
+    </div>
+    
+    <section *ngFor="let subjectDetail of this.students.subjectDetails; let i = index;">
+      <div>
+        <button type="button" class="btn btn-danger" (click)="removeSubject(i)">Remove Subject</button>
+        
+      </div>
+           <label>Subject</label>
+           <input type="text" name="subject_{{i}}" #selectedStudent.subjectDetails.subject="ngModel" [(ngModel)]="this.studentService.selectedStudent.subjectDetails.subject"/>
+           
+           
+           <label>Marks</label>
+           <input type="text" id="marks" name="marks" class="form-control" #marks="ngModel" 
+           pattern="(?!^0*$)(?!^0*\.0*$)^\d{1,2}(\.\d{1,2})|(100|100\.0|100\.00)?$" minlength="1" maxlength="3" [(ngModel)]="this.studentService.selectedStudent.subjectDetails.marks"/>
+          
+           <div *ngIf="marks.invalid && (marks.dirty || marks.touched)"
+    class="alert alert-danger">  
+      <div *ngIf="marks.errors.required">Marks required.</div>
+      <div *ngIf="marks.errors.minlength">Marks number must be at least 0 digit long.</div>
+      <div *ngIf="marks.errors.maxlength">Marks number not more than 100 digit long.</div>  
+      <div [hidden]="!marks.hasError('pattern')">Marks must be less than 100</div>
+    </div>
+     </section>
+     <button type="button" class="btn" (click)="addSubject()">Add Subject</button> 
+   
+     <button type="submit" class="btn btn-success"> Submit</button>
+</form>
